@@ -23,6 +23,7 @@ const EditImagePage = () => {
     removedBgImageUrl,
     setImageUrl,
     setRemovedBgImageUrl,
+    imageUploadError,
   } = useSelectedImage();
   const [imageDimensions, setImageDimensions] = useState<{
     width: number;
@@ -221,6 +222,10 @@ const EditImagePage = () => {
                 objectPosition="center"
                 onLoad={onImageLoaded}
               />
+            ) : imageUploadError ? (
+              <span className="flex items-center justify-center w-full gap-2">
+                Please upload another image.
+              </span>
             ) : (
               <span className="flex items-center justify-center w-full gap-2">
                 <ReloadIcon className="animate-spin" /> Loading, please wait

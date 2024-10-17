@@ -9,6 +9,8 @@ type ImageContextType = {
   setIsImageSetupDone: (value: boolean) => void;
   removedBgImageUrl: string | null;
   setRemovedBgImageUrl: (url: string | null) => void;
+  imageUploadError: boolean;
+  setImageUploadError: (val: boolean) => void;
 };
 
 const SelectedImageContext = createContext<ImageContextType | undefined>(
@@ -25,6 +27,7 @@ export const SelectedImageProvider = ({
   const [removedBgImageUrl, setRemovedBgImageUrl] = useState<string | null>(
     null
   );
+  const [imageUploadError, setImageUploadError] = useState<boolean>(false);
 
   return (
     <SelectedImageContext.Provider
@@ -35,6 +38,8 @@ export const SelectedImageProvider = ({
         setIsImageSetupDone,
         removedBgImageUrl,
         setRemovedBgImageUrl,
+        imageUploadError,
+        setImageUploadError,
       }}
     >
       {children}
