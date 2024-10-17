@@ -185,13 +185,19 @@ const EditImagePage = () => {
     setTextSets([]);
   }, [imageUrl]);
 
+  // useEffect(() => {
+  //   return () => {
+  //     setTextSets([]);
+  //     setImageUrl("");
+  //     setRemovedBgImageUrl(null);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    return () => {
-      setTextSets([]);
-      setImageUrl("");
-      setRemovedBgImageUrl(null);
-    };
-  }, []);
+    imageUploadError &&
+      containerRef.current !== null &&
+      setContainerHeight(400);
+  }, [imageUploadError]);
 
   if (!imageUrl) {
     return (
@@ -206,12 +212,12 @@ const EditImagePage = () => {
   return (
     <section className="flex m-8 gap-6 max-md:flex-col min-h-[70vh]">
       <div className=" flex-1 sticky top-2 z-20">
-        <div className="relative h-full">
+        <div className="relative h-[400px] md:h-full">
           <div
             ref={containerRef}
             id="edited-image"
             style={{ height: containerHeight }}
-            className="sticky md:w-[80%] h-[500px] top-2  flex border border-border rounded-lg overflow-hidden bg-black"
+            className="sticky md:w-[80%] h-[400px] top-2  flex border border-border rounded-lg overflow-hidden bg-black"
           >
             {isImageSetupDone ? (
               <Image

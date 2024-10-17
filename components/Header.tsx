@@ -58,34 +58,31 @@ const Header = () => {
     setRemovedBgImageUrl(null);
     setIsImageSetupDone(false);
     setImageUploadError(false);
-    if (typeof window !== "undefined") {
-      try {
-        let imageBlob: any;
+    try {
+      let imageBlob: any;
 
-        // Check if the file is in HEIC format
-        if (file.name.endsWith(".heic") || file.name.endsWith(".HEIC")) {
-          const heicResponse = await fetch(fileUrl);
-          const heicBlob = await heicResponse.blob();
+      // Check if the file is in HEIC format
+      if (file.name.endsWith(".heic") || file.name.endsWith(".HEIC")) {
+        const heicResponse = await fetch(fileUrl);
+        const heicBlob = await heicResponse.blob();
 
-          // Convert HEIC to PNG or JPEG
-          imageBlob = await heic2any({ blob: heicBlob, toType: "image/png" });
-        } else {
-          // If not HEIC, proceed with the original file
-          imageBlob = await removeBackground(fileUrl);
-        }
-
-        const url = URL.createObjectURL(imageBlob);
-        setRemovedBgImageUrl(url);
-
-        // Assuming removeBackground function takes a Blob
-        // await removeBackground(url); // Adjust as necessary for your removeBackground function
-        setIsImageSetupDone(true);
-      } catch (e) {
-        console.log("setup image error", e);
-        setImageUploadError(true);
-        if (typeof window !== "undefined")
-          window.alert(`Image upload error: ${e}`);
+        // Convert HEIC to PNG or JPEG
+        imageBlob = await heic2any({ blob: heicBlob, toType: "image/png" });
+      } else {
+        // If not HEIC, proceed with the original file
+        imageBlob = await removeBackground(fileUrl);
       }
+
+      const url = URL.createObjectURL(imageBlob);
+      setRemovedBgImageUrl(url);
+
+      // Assuming removeBackground function takes a Blob
+      // await removeBackground(url); // Adjust as necessary for your removeBackground function
+      setIsImageSetupDone(true);
+    } catch (e) {
+      console.log("setup image error", e);
+      setImageUploadError(true);
+      window.alert(`Image upload error: ${e}`);
     }
   };
 

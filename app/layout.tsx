@@ -21,10 +21,10 @@ export default function RootLayout({
           <Header />
           {children}
           <footer className="my-9">
-            <p className="text-center text-xl">
+            <p className="text-center text-md md:text-xl">
               Created by{" "}
               <a
-                className=" text-red-300 text-2xl"
+                className=" text-red-300 text-lg md:text-2xl"
                 rel="author"
                 target="_blank"
                 href="https://mayankverma.dev"
