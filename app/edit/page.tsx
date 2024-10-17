@@ -203,7 +203,7 @@ const EditImagePage = () => {
   }
 
   return (
-    <section className="flex m-8 gap-6 max-md:flex-col">
+    <section className="flex m-8 gap-6 max-md:flex-col min-h-[70vh]">
       <div className=" flex-1 sticky top-2 z-20">
         <div className="relative h-full">
           <div
