@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { removeBackground } from "@imgly/background-removal";
 import { useSelectedImage } from "@/context/SelectedImageContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-// import heic2any from "heic2any";
 
 const logoFont = "league spartan";
 
@@ -54,19 +53,13 @@ const Header = () => {
   //   }
   // };
 
-  const setupImage = async (fileUrl: string, file: File): Promise<void> => {
+  const setupImage = async (fileUrl: string, file: File) => {
     setRemovedBgImageUrl(null);
     setIsImageSetupDone(false);
     setImageUploadError(false);
-
     try {
-      let imageBlob: Blob | Blob[];
-
-      // Ensure this code runs only in the browser (not during SSR)
+      let imageBlob: Blob | any;
       if (typeof window !== "undefined") {
-        console.log("file url", file.name);
-
-        // Check if the file is in HEIC format
         if (file.name.endsWith(".heic") || file.name.endsWith(".HEIC")) {
           const heicResponse = await fetch(fileUrl);
           const heicBlob = await heicResponse.blob();
@@ -76,22 +69,14 @@ const Header = () => {
 
           // Convert HEIC to PNG using the dynamically loaded `heic2any` library
           imageBlob = await heic2any({ blob: heicBlob, toType: "image/png" });
-          // Check if `imageBlob` is an array (multiple blobs), and handle accordingly
-          if (Array.isArray(imageBlob)) {
-            // If it's an array, use the first Blob in the array
-            imageBlob = imageBlob[0];
-          }
         } else {
-          // If not HEIC, proceed with the original file
-          const response = await fetch(fileUrl);
-          imageBlob = await response.blob();
+          imageBlob = await removeBackground(fileUrl);
+          const url = URL.createObjectURL(imageBlob);
+          setRemovedBgImageUrl(url);
         }
-
-        const url = URL.createObjectURL(imageBlob);
-        setRemovedBgImageUrl(url);
-
-        setIsImageSetupDone(true);
       }
+
+      setIsImageSetupDone(true);
     } catch (e) {
       console.error("Setup image error:", e);
       setImageUploadError(true);

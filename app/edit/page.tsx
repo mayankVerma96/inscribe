@@ -193,11 +193,10 @@ const EditImagePage = () => {
   //   };
   // }, []);
 
-  useEffect(() => {
-    imageUploadError &&
-      containerRef.current !== null &&
-      setContainerHeight(400);
-  }, [imageUploadError]);
+  // useEffect(() => {
+  //   if (imageUploadError) setContainerHeight(400);
+
+  // }, [imageUploadError, imageUrl]);
 
   if (!imageUrl) {
     return (
@@ -216,8 +215,16 @@ const EditImagePage = () => {
           <div
             ref={containerRef}
             id="edited-image"
-            style={{ height: containerHeight }}
-            className="sticky md:w-[80%] h-[400px] top-2  flex border border-border rounded-lg overflow-hidden bg-black"
+            style={{
+              height:
+                window.innerWidth > 768
+                  ? containerHeight
+                  : imageDimensions &&
+                    imageDimensions.width / imageDimensions.height > 1
+                  ? containerHeight
+                  : "400px",
+            }}
+            className={`sticky md:w-[80%] h-[400px] top-2 flex border border-border rounded-lg overflow-hidden bg-black`}
           >
             {isImageSetupDone ? (
               <Image
